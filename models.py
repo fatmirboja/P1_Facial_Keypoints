@@ -32,10 +32,10 @@ class Net(nn.Module):
         self.drop1 = nn.Dropout(p=0.1)
 
         # second conv layer: 32 inputs, 64 outputs, 4x4 conv
-        ## output size = (W-F)/S +1 = (110-4)/1 +1 = 107
-        # the output tensor will have dimensions: (64, 107, 107)
+        ## output size = (W-F)/S +1 = (110-5)/1 +1 = 106
+        # the output tensor will have dimensions: (64, 106, 106)
         # after another pool layer this becomes (64, 53, 53)
-        self.conv2 = nn.Conv2d(32, 64, 4)
+        self.conv2 = nn.Conv2d(32, 64, 5)
 
         # maxpool layer
         # pool with kernel_size=2, stride=2
@@ -45,10 +45,10 @@ class Net(nn.Module):
         self.drop2 = nn.Dropout(p=0.2)
 
         # third conv layer: 64 inputs, 128 outputs, 3x3 conv
-        ## output size = (W-F)/S +1 = (53-3)/1 +1 = 51
-        # the output tensor will have dimensions: (128, 51, 51)
-        # after another pool layer this becomes (128, 25, 25)
-        self.conv3 = nn.Conv2d(64, 128, 3)
+        ## output size = (W-F)/S +1 = (53-5)/1 +1 = 49
+        # the output tensor will have dimensions: (128, 49, 49)
+        # after another pool layer this becomes (128, 24, 24)
+        self.conv3 = nn.Conv2d(64, 128, 5)
 
         # maxpool layer
         # pool with kernel_size=2, stride=2
@@ -58,10 +58,10 @@ class Net(nn.Module):
         self.drop3 = nn.Dropout(p=0.3)
 
         # 4th conv layer: 128 inputs, 256 outputs, 2x2 conv
-        ## output size = (W-F)/S +1 = (25-2)/1 +1 = 24
-        # the output tensor will have dimensions: (256, 24, 24)
-        # after another pool layer this becomes (256, 12, 12)
-        self.conv4 = nn.Conv2d(128, 256, 2)
+        ## output size = (W-F)/S +1 = (24-5)/1 +1 = 20
+        # the output tensor will have dimensions: (256, 20, 20)
+        # after another pool layer this becomes (256, 10, 10)
+        self.conv4 = nn.Conv2d(128, 256, 5)
 
         # maxpool layer
         # pool with kernel_size=2, stride=2
@@ -71,10 +71,10 @@ class Net(nn.Module):
         self.drop4 = nn.Dropout(p=0.4)
 
         # 5th conv layer: 256 inputs, 512 outputs, 1x1 conv
-        ## output size = (W-F)/S +1 = (12-1)/1 +1 = 12
-        # the output tensor will have dimensions: (512, 12, 12)
-        # after another pool layer this becomes (512, 6, 6)
-        self.conv5 = nn.Conv2d(256, 512, 1)
+        ## output size = (W-F)/S +1 = (10-5)/1 +1 = 6
+        # the output tensor will have dimensions: (512, 6, 6)
+        # after another pool layer this becomes (512, 3, 3)
+        self.conv5 = nn.Conv2d(256, 512, 5)
 
         # maxpool layer
         # pool with kernel_size=2, stride=2
@@ -83,20 +83,20 @@ class Net(nn.Module):
         # dropout with p=0.5
         self.drop5 = nn.Dropout(p=0.5)
 
-        # 512 outputs * the 6*6 filtered/pooled map size
-        self.fc1 = nn.Linear(512*6*6, 1000)
+        # 512 outputs * the 3*3 filtered/pooled map size
+        self.fc1 = nn.Linear(512*3*3, 1000)
 
         # dropout with p=0.6
         self.fc1_drop = nn.Dropout(p=0.6)
 
         # 1000 inputs, 1000 outputs
-        self.fc2 = nn.Linear(1000, 1000)
+        self.fc2 = nn.Linear(1000, 500)
 
         # dropout with p=0.7
         self.fc2_drop = nn.Dropout(p=0.7)
 
         # 1000 inputs, 136 outputs
-        self.fc3 = nn.Linear(1000, 136)
+        self.fc3 = nn.Linear(500, 136)
 
 
     def forward(self, x):
